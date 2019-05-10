@@ -228,6 +228,7 @@ struct imx_port {
 	unsigned int		old_status;
 	unsigned int		have_rtscts:1;
 	unsigned int		dte_mode:1;
+	unsigned int		irq_mode:1;
 	unsigned int		irda_inv_rx:1;
 	unsigned int		irda_inv_tx:1;
 	unsigned short		trcv_delay; /* transceiver delay */
@@ -1139,6 +1140,9 @@ static int imx_uart_dma_init(struct imx_port *sport)
 	struct dma_slave_config slave_config = {};
 	struct device *dev = sport->port.dev;
 	int ret, i;
+
+	if (sport->irq_mode)
+		return 0;
 
 	/* Prepare for RX : */
 	sport->dma_chan_rx = dma_request_slave_channel(dev, "rx");
@@ -2085,6 +2089,10 @@ static int serial_imx_probe_dt(struct imx_port *sport,
 
 	if (of_get_property(np, "fsl,dte-mode", NULL))
 		sport->dte_mode = 1;
+
+	sport->irq_mode = 0;
+	if (of_get_property(np, "fsl,irq-mode", NULL))
+		sport->irq_mode = 1;
 
 	return 0;
 }

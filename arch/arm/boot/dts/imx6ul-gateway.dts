@@ -322,6 +322,7 @@
 	/* for DTE mode, add below change */
 	/* fsl,dte-mode; */
 	/* pinctrl-0 = <&pinctrl_uart1dte>; */
+	fsl,irq-mode;
 	status = "okay";
 };
 
@@ -332,6 +333,7 @@
 	/* for DTE mode, add below change */
 	/* fsl,dte-mode; */
 	/* pinctrl-0 = <&pinctrl_uart2dte>; */
+	fsl,irq-mode;
 	status = "okay";
 };
 
